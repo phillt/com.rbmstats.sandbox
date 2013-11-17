@@ -67,8 +67,8 @@ class lib_bootstrap {
             $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
         }
         // get rid of trailing slash
-        $pageURL = rtrim($pageURL, "/");
-        $pre_params = explode('/', $pageURL);
+        $pageURL_trimmed = rtrim($pageURL, "/");
+        $pre_params = explode('/', $pageURL_trimmed);
         unset($pre_params[0]);
         unset($pre_params[1]);
         unset($pre_params[2]);
