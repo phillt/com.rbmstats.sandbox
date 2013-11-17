@@ -15,11 +15,16 @@ class lib_bootstrap {
             // Not set, load index
             $_url = "index";
         }
-
+        
+        
         // Load $_url controller;
-        $_controller = "controller_" . $_url;
+        $_controller_name = "controller_" . $_url;
+        if(!file_exists(SITE_ROOT . '/controller/' . $_controller_name . ".php")){
+            $_url = "error";
+           $_controller_name = "controller_" . $_url;
+        }
         // Load controller
-        $_controller = new $_controller($_url);
+        $_controller = new $_controller_name($_url);
         // Call action if action is set
 
         if (isset($_page_params[1])) {
@@ -35,7 +40,12 @@ class lib_bootstrap {
                 } else {
                     $_controller->{$_method}();
                 }
+            }else{
+                // Handle page not found.
+                header("Location: ". SITE_URL ."error");
             }
+        }else{
+            $_controller->_index();
         }
     }
     /**
@@ -56,6 +66,8 @@ class lib_bootstrap {
         } else {
             $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
         }
+        // get rid of trailing slash
+        $pageURL = rtrim($pageURL, "/");
         $pre_params = explode('/', $pageURL);
         unset($pre_params[0]);
         unset($pre_params[1]);
