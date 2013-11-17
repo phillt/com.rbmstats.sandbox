@@ -2,9 +2,8 @@
 
 class lib_render extends lib_frontendauto {
 
-    function __construct($_view) {
-        $this->_view = $_view;
-        parent::__construct($_view);
+    function __construct() {
+        parent::__construct($this->_view);
     }
 
     function render_header() {
