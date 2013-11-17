@@ -15,39 +15,40 @@ class lib_bootstrap {
             // Not set, load index
             $_url = "index";
         }
-        
-        
+
         // Load $_url controller;
         $_controller_name = "controller_" . $_url;
-        if(!file_exists(SITE_ROOT . '/controller/' . $_controller_name . ".php")){
+        if (!file_exists(SITE_ROOT . '/controller/' . $_controller_name . ".php")) {
             $_url = "error";
-           $_controller_name = "controller_" . $_url;
+            $_controller_name = "controller_" . $_url;
         }
+
+
         // Load controller
         $_controller = new $_controller_name($_url);
         // Call action if action is set
 
         if (isset($_page_params[1])) {
             // Check if method exists
-            if (function_exists($_controller->{$_page_params[1]})) {
+            if (method_exists($_controller, $_page_params[1])) {
                 $_method = $_page_params[1];
-
                 if (isset($_page_params[2])) {
                     unset($_page_params[0]);
                     unset($_page_params[1]);
 
-                    call_user_func($_controller->{$_method}, $_page_params);
+                    call_user_method($_controller, $_method, arra_values($_page_params));
                 } else {
-                    $_controller->{$_method}();
+                    $_controller->$_method();
                 }
-            }else{
+            } else {
                 // Handle page not found.
-                header("Location: ". SITE_URL ."error");
+                header("Location: " . SITE_URL . "error");
             }
-        }else{
+        } else {
             $_controller->_index();
         }
     }
+
     /**
      * curPageURL
      * 
@@ -57,7 +58,7 @@ class lib_bootstrap {
      */
     function curPageURL() {
         $pageURL = 'http';
-        if ($_SERVER["HTTPS"] == "on") {
+        if (isset($_SERVER["HTTPS"]) && strtolower($_SERVER["HTTPS"]) == "on") {
             $pageURL .= "s";
         }
         $pageURL .= "://";
@@ -72,7 +73,7 @@ class lib_bootstrap {
         unset($pre_params[0]);
         unset($pre_params[1]);
         unset($pre_params[2]);
-        if ($pre_params[3] === "") {
+        if (isset($pre_params[3]) AND $pre_params[3] === "") {
             unset($pre_params[3]);
         }
         // Remove the first three
