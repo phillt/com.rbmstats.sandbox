@@ -8,6 +8,12 @@ class lib_controller extends lib_render{
         $this->check_for_model();
     }
     
+    function _index() {
+        $this->render_header();
+        $this->render_body();
+        $this->render_footer();
+    }
+    
     function check_for_model () {
         if(file_exists(SITE_ROOT . "/model/model_". $this->_view . ".php")){
             $model = "model_" . $this->_view;

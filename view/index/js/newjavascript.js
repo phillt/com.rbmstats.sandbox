@@ -4,6 +4,5 @@
  */
 
 $(document).ready(function(){
-    alert("And I kicked ass!");
 });
 

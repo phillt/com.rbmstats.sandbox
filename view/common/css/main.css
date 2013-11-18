@@ -3,3 +3,8 @@ body {
     background-color: rgb(220, 220, 220);
 }
 
+#main-wrapper {
+    width: 900px;
+    position: relative;
+    margin: 10px auto 10px auto;
+}
